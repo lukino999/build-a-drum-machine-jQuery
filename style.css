@@ -31,10 +31,10 @@ body {
 .display__top-margin {
   width: 100%;
   height: 10%;
-  
 }
 
 .display {
+  font-family: 'VT323', monospace;
   width: 90%;
   height: 80%;
   margin: auto;
