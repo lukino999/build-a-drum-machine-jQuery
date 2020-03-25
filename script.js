@@ -3,6 +3,9 @@ const currentTime = "currentTime";
 $(document).ready(function() {
 	console.log("Doc ready");
 
+
+	buildPads();
+
 	// set keypress listener
 	$("html").keydown(function(event) {
 		event.preventDefault();
@@ -27,3 +30,21 @@ $(document).ready(function() {
 	});
 
 });
+
+
+function buildPads() {
+	const container = $("#pads");
+	for (r = 0; r<3; r++) {
+		container.append("<div class=\"pad-row\"><div>");
+		// remove the inner div (can't figure out why it adds it)
+		$(".pad-row:last div").remove();
+		
+
+
+		// continue;
+		for (c=0; c<3; c++) {
+			$(".pad-row:last").append("<div class=\"single-pad__container\"><div>");
+			$(".pad-row:last .single-pad__container:last div").remove();
+		}
+	}
+}
