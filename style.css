@@ -67,3 +67,15 @@ body {
   border: 1px solid black;
 }
 
+.single-pad__top-margin {
+  width: 100%;
+  height: 5%;
+}
+
+
+.drum-pad {
+  height: 90%;
+  width: 90%;
+  margin: auto;
+}
+
