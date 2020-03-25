@@ -94,9 +94,15 @@ function setTrigger(i) {
 	$(`#${sample}`).click(function() {
 		console.log(`pad ${padLetter} click `);
 
+		// change display
+		$(`#display`).text(sample);
 		// reference to audio tag
 		const audio = $(`#${padLetter}`);
 		// play if currentTime == 0 otherwise set currentTime to 0 to retrigger
+		audio.trigger("play");
+		return;
+
+		
 		if(audio.prop(currentTime) == 0) {
 			audio.trigger("play");
 		} else {
