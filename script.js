@@ -1,10 +1,10 @@
 const currentTime = "currentTime";
-const padID = [ "Q", "W", "E", "A", "S", "D", "Z", "X", "C"];
+const padLetters = [ "Q", "W", "E", "A", "S", "D", "Z", "X", "C"];
 const samples = [
 	"tom-l",
 	"tom-h",
 	"crash",
-	"opn-hat",
+	"open-hat",
 	"snare",
 	"rim",
 	"closed-hat",
@@ -15,31 +15,7 @@ const samples = [
 $(document).ready(function() {
 	console.log("Doc ready");
 
-
 	buildPads();
-
-	// set keypress listener
-	$("html").keydown(function(event) {
-		event.preventDefault();
-		console.log("keypress: " + event.key.toUpperCase());
-		if(event.key.toUpperCase() == "ENTER") {
-			console.log("ENTER");
-			$("#sample1 button").trigger("click");
-		}
-	});
-
-
-	$("#sample1 button").click(function() {
-		// reference to audio tag
-		const audio = $("#sample1 audio");
-		// play if currentTime == 0 otherwise set currentTime to 0 to retrigger
-		if(audio.prop(currentTime) == 0) {
-			audio.trigger("play");
-		} else {
-			audio.prop(currentTime, 0);
-		}
-		
-	});
 
 });
 
@@ -61,17 +37,17 @@ function buildPads() {
 
 			// open div class="drum-pad"
 			// with id that describes the audio clip
-			padsHTML += `<div class="drum-pad" id="${index}" >`;
+			padsHTML += `<div class="drum-pad" id="${samples[index]}" >`;
 
 			// with an inner text that corresponds to one of the following keys on the keyboard: qweasdzxc
-			padsHTML += `${padID[index]}`;
+			padsHTML += `${padLetters[index]}`;
 
 
 			// inside drum-pad open an audio tag which:
 			// has a src attribute pointing to an audio clip
 			// a class name of clip
 			// and an id corresponding to the inner text of its parent .drum-pad (e.g. id="Q", id="W", id="E" etc.).
-			padsHTML += `<audio src="${samples[index]}.wav" preload="audio" class="clip" id=${padID[index]}></audio>`
+			padsHTML += `<audio src="./samples/${samples[index]}.wav" preload="auto" class="clip" id=${padLetters[index]}></audio>`
 
 
 
@@ -89,7 +65,43 @@ function buildPads() {
 		padsHTML += `</div>`;
 	}
 
-	console.log(padsHTML);
 	// set #pads innerHTML
-	$("#pads").html(padsHTML); // do you need to do this?
+	$("#pads").html(padsHTML);
+
+	for (let i=0; i<9; i++) {
+		setTrigger(i);
+	}
+
+	$(document).keydown(function(event) {
+		event.preventDefault();
+		const key = event.key.toUpperCase();
+		console.log(`keypress: ${key}`);
+
+		const index = padLetters.indexOf(key);
+		if(index >= 0) {
+			console.log(`triggering pad ${key} click`);
+			$(`#${samples[index]}`).trigger(`click`);
+		}
+	});
+}
+
+function setTrigger(i) {
+
+	const sample = samples[i];
+	const padLetter = padLetters[i];
+	console.log(`Setting pad ${padLetter}, sample: ${sample}`);
+
+	$(`#${sample}`).click(function() {
+		console.log(`pad ${padLetter} click `);
+
+		// reference to audio tag
+		const audio = $(`#${padLetter}`);
+		// play if currentTime == 0 otherwise set currentTime to 0 to retrigger
+		if(audio.prop(currentTime) == 0) {
+			audio.trigger("play");
+		} else {
+			audio.prop(currentTime, 0);
+		}
+		
+	});
 }
